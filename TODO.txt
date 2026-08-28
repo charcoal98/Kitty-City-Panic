@@ -1,0 +1,6 @@
+WASD controls
+Platform Collision
+enemy collision
+enemy movement
+Separate arm sprite from main body
+create attack hitbox
