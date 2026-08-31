@@ -1,6 +1,7 @@
 WASD controls
-Platform Collision
+Platform Collision -
 enemy collision
 enemy movement
 Separate arm sprite from main body
 create attack hitbox
+stop cat from sliding down slopes
