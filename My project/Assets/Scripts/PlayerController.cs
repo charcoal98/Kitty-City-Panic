@@ -56,8 +56,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void FixedUpdate(){
+        //move to fixed update to see if that fixed anything... It didn't
          groundedCheck();
     }
+    //Also does'nt work it has the same bug that my normal grounded check has but only activates when touching a wall 
     /**void OnCollisionStay2D(Collision2D collision) {
 		// Check that we collided with Ground or oneway platform
         //print(collision.gameObject.layer);
@@ -79,12 +81,6 @@ public class PlayerController : MonoBehaviour
 	}*/
 
 
-    //Debug meths
-    public void RaycastVis(Vector3 Origin, Vector2 direction, float distance, Color color){
-        Vector3 dir = new Vector3(direction.x, direction.y, 0);
-        Vector3 end = Origin + (dir * distance);
-        Debug.DrawLine(Origin + transform.position, end + transform.position, color);
-    }
     public void groundedCheck(){
         RaycastHit2D[] hits = Physics2D.RaycastAll(bottomOffset, Vector2.down, groundDist);
 		// We might have multiple things below our character's feet
@@ -98,4 +94,12 @@ public class PlayerController : MonoBehaviour
 			}
 		}
     }
+
+    //Debug meths
+    public void RaycastVis(Vector3 Origin, Vector2 direction, float distance, Color color){
+        Vector3 dir = new Vector3(direction.x, direction.y, 0);
+        Vector3 end = Origin + (dir * distance);
+        Debug.DrawLine(Origin + transform.position, end + transform.position, color);
+    }
+    
 }
