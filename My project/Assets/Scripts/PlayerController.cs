@@ -86,8 +86,8 @@ public class PlayerController : MonoBehaviour
 		// We might have multiple things below our character's feet
 		for(int i = 0; i < hits.Length; i++) {
 			RaycastHit2D hit = hits[i];
-            print(hit.collider.gameObject.layer + ":" + i );
-            print(LayerMask.NameToLayer("Ground"));
+            /*print(hit.collider.gameObject.layer + ":" + i );
+            print(LayerMask.NameToLayer("Ground"));*/
 			if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")) {
 				Grounded = true;
                 //print("Jump reset");
