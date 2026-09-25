@@ -2,15 +2,15 @@ WASD controls -
 Platform Collision -
 One way platforms -
 
-remove wall jumping/double jump
+remove wall jumping/double jump-
 
-add collectables
+add collectables-
 
 
-stop cat from sliding down slopes
+stop cat from sliding down slopes-
 make it so you can fall through platforms
 
-enemy collision
+enemy collision-
 enemy movement
-Separate arm sprite from main body
+
 create attack hitbox
