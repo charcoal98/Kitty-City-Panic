@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Global : MonoBehaviour
 {
@@ -12,5 +13,9 @@ public class Global : MonoBehaviour
     void Update()
     {
         
+    }
+    public static void skinACat(){
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentScene);
     }
 }

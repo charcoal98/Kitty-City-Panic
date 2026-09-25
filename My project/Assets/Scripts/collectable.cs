@@ -12,6 +12,7 @@ public class collectable : MonoBehaviour
         print("blarg");
         if(collision.gameObject.GetComponent<PlayerController>()) {
             goal.keyCollect += 1;
+            goal.updateCollectable();
             Destroy(gameObject);
         }
     }
