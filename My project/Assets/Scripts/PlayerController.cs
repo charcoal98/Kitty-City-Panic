@@ -13,9 +13,15 @@ public class PlayerController : MonoBehaviour
     public float horForce = 20f;
     public float jumpForce = 20f; 
 
-    Vector3 leftRightOffset;
+    Vector3 leftRightOffset = new Vector3(.375f,0f,0f);
+    Vector3 centerOffset = new Vector3(0f,.8125f,0f);
+    Vector2 facing = Vector2.right;
 
     public float colDist = 1f;
+
+    //attack hitbox
+    public float attackHitboxRadius;
+    public float attackHitboxDistance;
 
     //animaton
     bool attack;
@@ -25,9 +31,6 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>(); 
         _sr = GetComponent<SpriteRenderer>();
         _ani = GetComponent<Animator>();
-
-        //offsets
-        leftRightOffset = new Vector3(.375f,0f,0f);
     }
 
     void FixedUpdate(){
@@ -37,6 +40,9 @@ public class PlayerController : MonoBehaviour
 			_ani.speed = speed / 3f;}
 		else 
 			_ani.speed = 1f;
+        if (Keyboard.current.jKey.isPressed){
+            Attack();
+        }
 
     }
 
@@ -45,15 +51,13 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.aKey.isPressed){
             _rb.AddForce(horForce * Time.deltaTime * Vector2.left, ForceMode2D.Impulse);
             _sr.flipX = false;
+            facing = Vector2.left;
         }
 
         if (Keyboard.current.dKey.isPressed){
             _rb.AddForce(horForce * Time.deltaTime * Vector2.right, ForceMode2D.Impulse);
             _sr.flipX = true;
-        }
-
-        if (Keyboard.current.jKey.isPressed){
-            Attack();
+            facing = Vector2.right;
         }
 
         if (Grounded){
@@ -65,7 +69,7 @@ public class PlayerController : MonoBehaviour
         }else
             horForce = 1.25f;  
     
-        RaycastVis(transform.position, Vector2.down, groundDist, Color.yellow);
+        RaycastVis(transform.position, Vector2.down, groundDist, Color.yellow); 
     }
 
     void OnCollisionStay2D(Collision2D collision) {
@@ -88,6 +92,18 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(AttackDelay());
         _ani.speed = 1f;
         _ani.Play("Attack");
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position + centerOffset, 
+        attackHitboxRadius, facing, attackHitboxDistance);
+        for (int i = 0; i < hits.Length; i++) {
+            RaycastHit2D hit = hits[i];
+            if(hit.collider.gameObject.layer == 12){
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
+                enemy.enemyDamage(1);
+                break;//only hit one enemy once
+            }
+        }
+
+
     }
     //Set attack to true and wait until animation is done to set attack to false
     public IEnumerator AttackDelay(){
@@ -102,5 +118,21 @@ public class PlayerController : MonoBehaviour
         Vector3 end = Origin + (dir * distance);
         Debug.DrawLine(Origin, end, color);
     }
+
+    public void CirclecastVis(Vector2 start, float radius, Vector2 direction, float distance)
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(start, radius);
+
+        Gizmos.color = Color.yellow;
+        Vector2 endPosition = start + direction * distance;
+        Gizmos.DrawWireSphere(endPosition, radius);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(start, endPosition);
+    }
     
+    void OnDrawGizmos(){
+        CirclecastVis(transform.position + centerOffset, attackHitboxRadius, facing, attackHitboxDistance);
+    }
 }
