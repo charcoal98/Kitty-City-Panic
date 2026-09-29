@@ -1224,6 +1224,8 @@ MonoBehaviour:
   horForce: 2
   jumpForce: 1.7
   colDist: 0.2
+  attackHitboxRadius: 0.3
+  attackHitboxDistance: 0.7
 --- !u!50 &519922608
 Rigidbody2D:
   serializedVersion: 5
@@ -16756,6 +16758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0abeb0edc7277da239bd7a2674269dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  enemyHealth: 1
 --- !u!1 &1690185277
 GameObject:
   m_ObjectHideFlags: 0
