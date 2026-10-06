@@ -69,7 +69,9 @@ public class PlayerController : MonoBehaviour
             facing = Vector2.right;
         }
 
-        
+        if(Keyboard.current.rKey.isPressed){
+            Global.skinACat();
+        }
         
 
         if(Keyboard.current.sKey.isPressed){
