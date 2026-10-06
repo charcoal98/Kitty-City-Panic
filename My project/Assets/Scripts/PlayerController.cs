@@ -8,10 +8,15 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer _sr;
     Animator _ani;
 
+    //platform gameobject
+    public GameObject platform;
+
     public bool Grounded = true;
     const float groundDist = .03f;
     public float horForce = 20f;
     public float jumpForce = 20f; 
+
+    bool fallCoolDown = false;
 
     Vector3 leftRightOffset = new Vector3(.375f,0f,0f);
     Vector3 centerOffset = new Vector3(0f,.8125f,0f);
@@ -44,10 +49,14 @@ public class PlayerController : MonoBehaviour
             Attack();
         }
 
+        
+        
     }
 
     void Update()
     {        
+
+        
         if (Keyboard.current.aKey.isPressed){
             _rb.AddForce(horForce * Time.deltaTime * Vector2.left, ForceMode2D.Impulse);
             _sr.flipX = false;
@@ -59,6 +68,17 @@ public class PlayerController : MonoBehaviour
             _sr.flipX = true;
             facing = Vector2.right;
         }
+
+        
+        
+
+        if(Keyboard.current.sKey.isPressed){
+            fallCoolDown = true;
+            StartCoroutine(platformFall());
+        } else if (!fallCoolDown)
+            Physics2D.IgnoreCollision(platform.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
+
+
 
         if (Grounded){
             horForce = 2.5f;
@@ -85,6 +105,10 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 		}
+
+        //Fall Though Platform
+        
+
 	}
 
     //Meths
@@ -110,6 +134,12 @@ public class PlayerController : MonoBehaviour
         attack = true;
         yield return new WaitForSeconds(.5f);
         attack = false;
+    }
+
+    public IEnumerator platformFall(){
+        Physics2D.IgnoreCollision(platform.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
+        yield return new WaitForSeconds(.17f);
+        fallCoolDown = false;
     }
 
     //Debug meths
