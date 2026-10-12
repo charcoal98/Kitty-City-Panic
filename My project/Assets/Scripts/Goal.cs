@@ -11,10 +11,12 @@ public class Goal : MonoBehaviour
     public int keyCollect;
     public TMP_Text keysCollected;
     string textCollect;
+    public string nextScene;
     //public Scene next;
 
     void Start(){
         updateCollectable();
+        print(SceneManager.GetActiveScene().name);
     }
 
     public void updateCollectable(){
@@ -26,7 +28,8 @@ public class Goal : MonoBehaviour
         if(collision.gameObject.layer == 13) {
             if (keyCollect >= lockNum){
                 string currentScene = SceneManager.GetActiveScene().name;
-                SceneManager.LoadScene(currentScene);
+                
+                SceneManager.LoadScene(nextScene);
             }
             else 
             {
