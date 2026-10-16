@@ -9,7 +9,7 @@ public class collectable : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
-        print("blarg");
+        Global.global.paperGet();
         if(collision.gameObject.GetComponent<PlayerController>()) {
             goal.keyCollect += 1;
             goal.updateCollectable();

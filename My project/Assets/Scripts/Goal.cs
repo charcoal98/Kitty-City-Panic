@@ -20,21 +20,27 @@ public class Goal : MonoBehaviour
     }
 
     public void updateCollectable(){
-        string textCollect = keyCollect.ToString("0") + "/" + lockNum.ToString("0");
+        string textCollect = "DOCUMENTS: " + keyCollect.ToString("0") + "/" + lockNum.ToString("0");
         keysCollected.text = textCollect;
     }
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.layer == 13) {
             if (keyCollect >= lockNum){
-                string currentScene = SceneManager.GetActiveScene().name;
+                Global.global.victory();
+                StartCoroutine(WinJingleWait());
                 
-                SceneManager.LoadScene(nextScene);
             }
             else 
             {
-                print("Papers please");
+                Global.global.papersPlease();
             }
         }
+    }
+
+    public IEnumerator WinJingleWait(){
+        yield return new WaitForSeconds(.6f);
+        string currentScene = SceneManager.GetActiveScene().name; 
+        SceneManager.LoadScene(nextScene);
     }
 }

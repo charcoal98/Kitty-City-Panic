@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if(Keyboard.current.rKey.isPressed){
-            Global.skinACat();
+            Global.global.skinACat();
         }
         
 
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision) {
 		// Check that we collided with Ground or oneway platform
-		if(collision.gameObject.layer >= 6 && collision.gameObject.layer <= 7) {
+		if(collision.gameObject.layer >= 6 && collision.gameObject.layer <= 7 && _rb.linearVelocity.y == 0) {
 			// Check what is directly below our character's feet
 			RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, new Vector2(.75f,.75f), 0f,Vector2.down, groundDist);
 			// We might have multiple things below our character's feet
@@ -107,10 +107,6 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 		}
-
-        //Fall Though Platform
-        
-
 	}
 
     //Meths
@@ -118,6 +114,14 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(AttackDelay());
         _ani.speed = 1f;
         _ani.Play("Attack");
+        
+
+
+    }
+    //Set attack to true and wait until animation is done to set attack to false
+    public IEnumerator AttackDelay(){
+        attack = true;
+        yield return new WaitForSeconds(.5f);
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position + centerOffset, 
         attackHitboxRadius, facing, attackHitboxDistance);
         for (int i = 0; i < hits.Length; i++) {
@@ -128,19 +132,12 @@ public class PlayerController : MonoBehaviour
                 break;//only hit one enemy once
             }
         }
-
-
-    }
-    //Set attack to true and wait until animation is done to set attack to false
-    public IEnumerator AttackDelay(){
-        attack = true;
-        yield return new WaitForSeconds(.5f);
         attack = false;
     }
 
     public IEnumerator platformFall(){
         Physics2D.IgnoreCollision(platform.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
-        yield return new WaitForSeconds(.17f);
+        yield return new WaitForSeconds(.18f);
         fallCoolDown = false;
     }
 

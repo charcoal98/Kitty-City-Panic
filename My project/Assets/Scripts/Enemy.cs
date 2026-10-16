@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision) {
         if (collision.gameObject.layer == 13){
-            Global.skinACat();
+            Global.global.skinACat();
         }
     }
 
@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
     }
 
     public void die(){
+        Global.global.berdDyded();
         Destroy(gameObject);
     }
 }
